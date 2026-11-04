@@ -29,7 +29,7 @@
     const openApp = document.getElementById("open-app");
     try {
       const url = new URL(APPS_SCRIPT_EXEC_URL.trim());
-      const deploymentPath = /^\/(?:macros\/s|a\/macros\/[^/]+\/s)\/[A-Za-z0-9_-]+\/exec$/;
+      const deploymentPath = /^\/(?:macros\/s|a\/~\/macros\/s|a\/macros\/[^/]+\/s)\/[A-Za-z0-9_-]+\/exec$/;
       if (url.origin !== "https://script.google.com" || url.username || url.password ||
           !deploymentPath.test(url.pathname)) {
         throw new Error("Đường dẫn Apps Script không hợp lệ.");
