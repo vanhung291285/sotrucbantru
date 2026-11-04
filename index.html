@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sổ trực bán trú</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, sans-serif; color: #163835; background: #edf6f4; }
+    body { margin: 0; min-height: 100dvh; display: grid; place-items: center; }
+    main { box-sizing: border-box; width: min(100% - 32px, 440px); padding: 28px; border: 1px solid #b9d8d1; border-radius: 16px; background: #fff; }
+    h1 { margin: 0 0 12px; font-size: 26px; }
+    p { line-height: 1.55; }
+    a { display: inline-block; padding: 12px 16px; border-radius: 8px; background: #12665f; color: #fff; text-decoration: none; font-weight: 650; }
+    a[hidden] { display: none; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Sổ trực bán trú</h1>
+    <p id="status" role="status">Đang kiểm tra đường dẫn…</p>
+    <a id="open-app" hidden>Mở Sổ trực bán trú</a>
+    <noscript><p>Hãy bật JavaScript để mở ứng dụng từ trang này.</p></noscript>
+  </main>
+  <script>
+    // Dán link Apps Script /exec đầy đủ dành cho giáo viên giữa hai dấu ngoặc kép.
+    const APPS_SCRIPT_EXEC_URL = "DAN_LINK_EXEC_VAO_DAY";
+
+    const status = document.getElementById("status");
+    const openApp = document.getElementById("open-app");
+    try {
+      const url = new URL(APPS_SCRIPT_EXEC_URL.trim());
+      const deploymentPath = /^\/(?:macros\/s|a\/macros\/[^/]+\/s)\/[A-Za-z0-9_-]+\/exec$/;
+      if (url.origin !== "https://script.google.com" || url.username || url.password ||
+          !deploymentPath.test(url.pathname)) {
+        throw new Error("Đường dẫn Apps Script không hợp lệ.");
+      }
+      openApp.href = url.href;
+      openApp.hidden = false;
+      status.textContent = "Đang mở ứng dụng. Nếu trang không tự chuyển, hãy bấm nút bên dưới.";
+      window.location.replace(url.href);
+    } catch {
+      status.textContent = "Chưa có đường dẫn hợp lệ. Quản trị hãy đặt APPS_SCRIPT_EXEC_URL trong index.html bằng link Apps Script kết thúc bằng /exec.";
+    }
+  </script>
+</body>
+</html>
